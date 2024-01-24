@@ -1,0 +1,23 @@
+{
+  "name": "lef4cart",
+  "version": "1.0.0",
+  "description": "RESTFul API & Message Driven Shopping Cart",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/app.js"
+  },
+  "author": "Permaficus",
+  "license": "ISC",
+  "devDependencies": {
+    "prisma": "^5.8.1"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.8.1",
+    "amqplib": "^0.10.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.2",
+    "helmet": "^7.1.0",
+    "joi": "^17.12.0"
+  }
+}
