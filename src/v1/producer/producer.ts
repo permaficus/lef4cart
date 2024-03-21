@@ -33,7 +33,7 @@ export const publishMessage = async (options: PublisherOptions) => {
         await channel.publish(exchange, targetRoutingKey, Buffer.from(JSON.stringify(options.message)))
         rbmq.setClosingState(true)
         await channel.close();
-        await conn.close()
+        await conn.close();
     })
     rbmq.on('error', error => {
         console.info(chalk.red(`[RBMQ] Error: ${error.message}`))
