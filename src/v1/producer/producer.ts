@@ -28,7 +28,7 @@ export const publishMessage = async (options: PublisherOptions) => {
             options: {
                 durable: true
             }
-        })
+        });
         await channel.bindQueue(targetQueue, exchange, targetRoutingKey)
         await channel.publish(exchange, targetRoutingKey, Buffer.from(JSON.stringify(options.message)))
         rbmq.setClosingState(true)
