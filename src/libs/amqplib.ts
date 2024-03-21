@@ -1,21 +1,42 @@
 import amqplib from 'amqplib';
 import {
     RBMQ_URL,
-    RBMQ_CART_QUEUE
+    RBMQ_CART_EXCHANGE,
+    RBMQ_CART_QUEUE,
+    RBMQ_PUB_ROUTING_KEY,
+    RBMQ_PUB_QUEUE
 } from '../constant/config'
 import EventEmitter from 'events'
 
+interface BrokerExchange {
+    channel: any
+    name: string | undefined | null
+    type: 'direct' | 'fanout' | 'headers' | 'topics'
+    durable: boolean
+    autoDelete?: boolean
+    internal?: boolean
+}
+interface QueueType {
+    name: string | undefined | null
+    channel: any,
+    options?: {
+        durable: boolean
+    }
+}
 class RabbitConnector extends EventEmitter {
     connection: any
     attempt: number
     maxAttempt: number
     userCloseConnection: boolean
+    defaultExchange: string
+
     constructor(){
         super()
         this.connection = null
         this.attempt = 0
         this.maxAttempt = 20
         this.userCloseConnection = false
+        this.defaultExchange = RBMQ_CART_EXCHANGE
         this.onError = this.onError.bind(this)
         this.onClosed = this.onClosed.bind(this)
     }
@@ -27,12 +48,12 @@ class RabbitConnector extends EventEmitter {
     connect = async () => {
 
         try {
-            const conn = await amqplib.connect(RBMQ_URL)
-    
+            const conn = await amqplib.connect(RBMQ_URL);
+            const channel = await conn.createChannel();
+            const EventListener = { conn, channel }
             conn.on('error', this.onError)
             conn.on('close', this.onClosed)
-    
-            this.emit('connected', conn)
+            this.emit('connected', EventListener)
             this.connection = conn
             this.attempt = 0
         } catch (error: any) {
@@ -52,6 +73,20 @@ class RabbitConnector extends EventEmitter {
         }
     }
 
+    createExchange = async (options: BrokerExchange) => {
+        await options.channel.assertExchange(
+            options.name || this.defaultExchange, 
+            options.type, 
+            {
+                durable: options.durable,
+                autoDelete: options.autoDelete,
+                internal: options.internal
+        });
+        return options.name || this.defaultExchange
+    }
+    createQueue = async (config: QueueType) => {
+        await config.channel.assertQueue(config.name, { ...config.options })
+    }
     reconnect = () => {
         this.attempt++
         this.emit('reconnect', this.attempt)
@@ -75,6 +110,8 @@ class RabbitConnector extends EventEmitter {
     }
 }
 
-export const rabbitInstance = () => {
+const rabbitInstance = () => {
     return new RabbitConnector()
 }
+
+export { rabbitInstance, RBMQ_CART_QUEUE, RBMQ_URL, RBMQ_CART_EXCHANGE, RBMQ_PUB_ROUTING_KEY, RBMQ_PUB_QUEUE}
