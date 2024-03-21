@@ -1,7 +1,11 @@
 import { rabbitInstance, RBMQ_CART_QUEUE, RBMQ_URL } from "../../libs/amqplib";
 import chalk from 'chalk'
 
-export const consumerInit = async () => {
+interface MessageSource {
+    originalQueue?: string
+    originalRoutingKey?: string
+}
+export const consumerInit = async (source?: MessageSource) => {
     const rbmq = rabbitInstance();
     rbmq.connect();
     rbmq.on('connected', async (EventListener) => {
