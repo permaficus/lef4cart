@@ -1,11 +1,19 @@
 import { rabbitInstance, RBMQ_URL, RBMQ_PUB_QUEUE, RBMQ_PUB_ROUTING_KEY } from "../../libs/amqplib";
 import chalk from 'chalk'
 
-export const publishMessage = async (message: any) => {
+interface PublisherOptions {
+    replyQueue?: string | undefined | null
+    replyRoutingKey?: string | undefined | null
+    message: object
+}
+
+export const publishMessage = async (options: PublisherOptions) => {
     const rbmq =  rabbitInstance();
     rbmq.connect();
     rbmq.on('connected', async (EventListener) => {
         const { channel, conn } = EventListener;
+        const targetQueue = options.replyQueue || RBMQ_PUB_QUEUE;
+        const targetRoutingKey = options.replyRoutingKey || RBMQ_PUB_ROUTING_KEY;
         const exchange = await rbmq.createExchange({
             name: null, 
             type: 'direct',
@@ -15,17 +23,17 @@ export const publishMessage = async (message: any) => {
             channel: channel
         });
         rbmq.createQueue({
-            name: RBMQ_PUB_QUEUE,
+            name: targetQueue,
             channel: channel,
             options: {
                 durable: true
             }
-        })
-        await channel.bindQueue(RBMQ_PUB_QUEUE, exchange, RBMQ_PUB_ROUTING_KEY)
-        await channel.publish(exchange, RBMQ_PUB_ROUTING_KEY, Buffer.from(JSON.stringify(message)))
+        });
+        await channel.bindQueue(targetQueue, exchange, targetRoutingKey)
+        await channel.publish(exchange, targetRoutingKey, Buffer.from(JSON.stringify(options.message)))
         rbmq.setClosingState(true)
         await channel.close();
-        await conn.close()
+        await conn.close();
     })
     rbmq.on('error', error => {
         console.info(chalk.red(`[RBMQ] Error: ${error.message}`))
