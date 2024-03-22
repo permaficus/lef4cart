@@ -26,7 +26,8 @@ export const publishMessage = async (options: PublisherOptions) => {
             name: targetQueue,
             channel: channel,
             options: {
-                durable: true
+                durable: true,
+                arguments: { 'x-queue-type': 'classic'}
             }
         });
         await channel.bindQueue(targetQueue, exchange, targetRoutingKey)

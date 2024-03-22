@@ -20,7 +20,12 @@ interface QueueType {
     name: string | undefined | null
     channel: any,
     options?: {
-        durable: boolean
+        durable: boolean,
+        arguments?: {
+            'x-queue-type'?: 'classic' | 'quorum' | 'stream',
+            'x-dead-letter-exchange'?: string | string[] | null,
+            'x-dead-letter-routing-key'?: string | string[] | null
+        }
     }
 }
 class RabbitConnector extends EventEmitter {
