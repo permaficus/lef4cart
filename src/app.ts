@@ -4,6 +4,7 @@ import {
     SERVICE_LOCAL_PORT, 
     NODE_ENV
 } from "./libs/service.init";
+import { consumerInit } from "./v1/consumer/consumer";
 import chalk from 'chalk'
 
 (async () => {
@@ -20,5 +21,6 @@ import chalk from 'chalk'
                 `${new Date(Date.now())}`
             )}\n\n-----------------------------------------`
           );
-    })
+    });
+    await consumerInit();
 })()
