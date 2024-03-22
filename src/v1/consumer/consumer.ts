@@ -1,11 +1,7 @@
 import { rabbitInstance, RBMQ_CART_QUEUE, RBMQ_URL } from "../../libs/amqplib";
 import chalk from 'chalk'
 
-interface MessageSource {
-    originalQueue?: string
-    originalRoutingKey?: string
-}
-export const consumerInit = async (source?: MessageSource) => {
+export const consumerInit = async () => {
     const rbmq = rabbitInstance();
     rbmq.connect();
     rbmq.on('connected', async (EventListener) => {
@@ -22,19 +18,21 @@ export const consumerInit = async (source?: MessageSource) => {
             channel: channel,
             name: RBMQ_CART_QUEUE,
             options: {
-                durable: true
+                durable: true,
+                arguments: { 'x-queue-type': 'classic' }
             }
         });
-        await EventListener.channel.consume(RBMQ_CART_QUEUE, async (msg: any) => {
+        await channel.consume(RBMQ_CART_QUEUE, async (msg: any) => {
             if (msg) {
                 /** start doing some stuff here */
+                const { task, origin, payload } = JSON.parse(msg.content)
             }
         });
         process.once('SIGINT' || 'exit' || 'SIGKILL', async () => {
             rbmq.setClosingState(true);
             await channel.close();
             await conn.close();
-            return;
+            process.exit(1)
         })
     
         console.log(chalk.yellow("[RBMQ] Waiting for messages. To exit press CTRL+C\n"));
