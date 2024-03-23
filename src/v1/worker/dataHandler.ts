@@ -1,6 +1,7 @@
 import { Cart } from '../../model/cart.model';
 import { Request, Response } from 'express';
 import { publishMessage } from '../producer/producer';
+import { validateRequest } from '../middleware/validateRequest';
 
 interface MessageOrigin {
     queue: string
@@ -18,9 +19,24 @@ type Task = 'read' | 'create' | 'update' | 'delete'
 
 export const handlingData = async (task: Task, payload: any, origin?: MessageOrigin, proto?: Protocols) => {
     try {
+        if (!task) {
+            throw new Error(JSON.stringify({
+                status: 'ERROR_BAD_REQUEST',
+                code: 400,
+                details: 'Task cannot be an empty value'
+            }))
+        }
+        /** start to validate payload */
+        await validateRequest({
+            task,
+            payload
+        })
+        /** ----------------------------------------------------------------- */
         const taskMapping: any = {
-            ...task == 'create' && { exec: await Cart.push(payload) },
+            ...task == 'create' && { exec: await Cart.push({ ...payload }) },
             ...task == 'read' && { exec: await Cart.read(payload.userId) },
+            ...task == 'update' && { exec: await Cart.update({ ...payload }) },
+            ...task == 'delete' && { exec: await Cart.remove(payload.cartId) }
         }
         const response = taskMapping.exec
         if (proto?.useMqtt) {
@@ -34,16 +50,16 @@ export const handlingData = async (task: Task, payload: any, origin?: MessageOri
             proto.overHttp?.response?.status(200).json({
                 status: 'OK',
                 code: 200,
-                data: response.data || response.details
+                data: response.data || response.details || response.document
             })
         }
     } catch (error: any) {
         if (proto?.useMqtt) {
             await publishMessage({
                 message: {
-                    status: 'ERROR',
+                    status: 'ERROR_BAD_REQUEST',
                     code: 400,
-                    details: error.message
+                    details: JSON.parse(error.message)['details'] || error.message
                 },
                 replyQueue: origin?.queue,
                 replyRoutingKey: origin?.routingKey
@@ -55,7 +71,7 @@ export const handlingData = async (task: Task, payload: any, origin?: MessageOri
             status: 'ERROR_BAD_REQUEST',
             code: 400,
             details: error.message
-        })
+        }).end();
     }
 }
 export const incomingRequest = async (req: Request, res: Response) => {
