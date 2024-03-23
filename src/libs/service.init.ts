@@ -1,4 +1,4 @@
-import express, { Express } from 'express'
+import express, { Express, Router } from 'express'
 import cors from 'cors'
 import {
     SERVICE_LOCAL_PORT,
@@ -7,7 +7,6 @@ import {
 import { router as v1 } from "../v1/router/router"
 
 const httpServer: Express = express()
-
 const httpServerInit = async () => {
     httpServer.use(express.urlencoded({ extended: true }))
     httpServer.use(express.json())
