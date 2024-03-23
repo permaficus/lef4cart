@@ -8,16 +8,18 @@ export const validateRequest = async (schema: any) => {
         throw new Error(JSON.stringify({
             status: 'ERROR_BAD_REQUEST',
             code: 400,
-            message: error.details[0].message
+            details: error.details[0].message.replace(/"/g, '')
         }))
     }
 }
-
 export const validateIncomingRequest = async (req: Request, res: Response, next: NextFunction) => {
     try {
         await validateRequest(req.body);
         next();
     } catch (error: any) {
-        res.status(400).json(JSON.parse(error.message)).end();
+        res.status(400).json({
+            status: 'ERROR_BAD_REQUEST',
+            code: 400,
+            details: JSON.parse(error.message)['details']}).end();
     }
 }
