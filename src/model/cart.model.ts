@@ -66,7 +66,11 @@ export class Cart {
                     select: { id: true }
                 });
                 if (!doc?.id) {
-                    throw new Error(`User ID doesn't exist`);
+                    throw new Error(JSON.stringify({
+                        status: 'ERROR_BAD_REQUEST',
+                        code: 400,
+                        details: `User ID does not exist `
+                    }));
                 }
                 return await model.shopping_cart.update({
                     where: {
