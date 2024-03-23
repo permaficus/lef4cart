@@ -13,22 +13,22 @@ const _template_: any = {
         'delete',
         'update'),
     payload: Joi.object({
-        user_id: Joi.string().required().messages({
+        user_id: Joi.string().label('User ID').required().messages({
             'string.empty': 'User ID must have a value'
         }),
-        product_id: Joi.string().required().messages({
+        product_id: Joi.string().label('Producdt ID').required().messages({
             'string.empty': 'Product ID cannot be an empty value'
         }),
-        product_name: Joi.string().required().messages({
+        product_name: Joi.string().label('Product Name').required().messages({
             'string.empty': 'Product Name cannot be an empty value'
         }),
-        product_image: Joi.string().required().messages({
+        product_image: Joi.string().label('Product Image').required().messages({
             'string.empty': 'Product Image cannot be an empty value'
         }),
-        price: Joi.number().min(1).required().messages({
+        price: Joi.number().min(1).label('Price').required().messages({
             'number.base': 'Price must be a number value'
         }),
-        quantity: Joi.number().min(1).required().messages({
+        quantity: Joi.number().min(1).label('Quantity').required().messages({
             'number.base': 'Quantity must be a number value'
         }),
         apps_id: Joi.string().allow(''),
