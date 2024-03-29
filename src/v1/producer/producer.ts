@@ -27,7 +27,7 @@ export const publishMessage = async (options: PublisherOptions) => {
             channel: channel,
             options: {
                 durable: true,
-                arguments: { 'x-queue-type': 'classic'}
+                arguments: { 'x-queue-type': 'classic' }
             }
         });
         await channel.bindQueue(targetQueue, exchange, targetRoutingKey)
@@ -43,7 +43,6 @@ export const publishMessage = async (options: PublisherOptions) => {
         console.info(`[RBMQ] Retrying connect to: ${chalk.yellow(RBMQ_URL.split('@')[1])}, attempt: ${chalk.green(attempt)}`)
     })
     rbmq.on('ECONNREFUSED', () => {
-        // logger.error(`[RBMQ] Connection to ${RBMQ_URL.split('@')[1]} refused`)
         console.error(chalk.red(`[RBMQ] Connection to ${RBMQ_URL.split('@')[1]} refused`))
         return;
     })
