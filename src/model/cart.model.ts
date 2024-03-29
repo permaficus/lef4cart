@@ -13,7 +13,7 @@ export interface DataSet {
     quantity: number
 }
 interface UpdatePayload {
-    userId: string,
+    user_id: string,
     quantity: number
 }
 export class Cart {
@@ -61,7 +61,7 @@ export class Cart {
             const transaction = await DB.$transaction(async model => {
                 const doc = await model.shopping_cart.findFirst({
                     where: {
-                        user_id: payload?.userId
+                        user_id: payload?.user_id
                     },
                     select: { id: true }
                 });
@@ -77,7 +77,9 @@ export class Cart {
                         id: doc.id
                     },
                     data: {
-                        quantity: payload.quantity
+                        quantity: {
+                            increment: payload.quantity
+                        }
                     }
                 })
             });
@@ -101,4 +103,20 @@ export class Cart {
             throw new Error(error.message)
         }
     }
+    /**
+     * 
+     * @param dataSet 
+     * @returns {string}: 'update'
+     */
+    static checkDuplicate = async (dataSet: any): Promise<number> => {
+        const count = await DB.shopping_cart.count({
+            where: {
+                AND:[
+                    { user_id: dataSet.user_id },
+                    { product_id: dataSet.product_id }
+                ]
+            }
+        }) ;
+        return count
+    } 
 }

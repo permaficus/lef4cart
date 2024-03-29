@@ -32,6 +32,12 @@ export const handlingData = async (task: Task, payload: any, origin?: MessageOri
             payload
         })
         /** ----------------------------------------------------------------- */
+        if (task == 'create') {
+            const count = await Cart.checkDuplicate(payload);
+            if (count > 0) {
+                task = 'update'
+            }
+        }
         const taskMapping: any = {
             ...task == 'create' && { exec: await Cart.push({ ...payload }) },
             ...task == 'read' && { exec: await Cart.read(payload.userId) },
@@ -50,7 +56,7 @@ export const handlingData = async (task: Task, payload: any, origin?: MessageOri
             proto.overHttp?.response?.status(200).json({
                 status: 'OK',
                 code: 200,
-                data: response.data || response.details || response.document
+                data: response.data || response.details || response.document || response
             })
         }
     } catch (error: any) {
