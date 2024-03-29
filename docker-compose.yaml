@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  opencart:
+    container_name: lef4cart
+    network_mode: lefina-dev
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app/lef4cart
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      - COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}
+    command: npm start
