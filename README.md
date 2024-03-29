@@ -36,49 +36,66 @@ Endpoint :
 
 * `/v1/shopping-cart` : method would be `GET, POST, PATCH, DELETE`
 
-Request Body :
+Sample Request and Request Body :
 
 ```json
-{
-    "task": "string", // valid selection: create, read, update, delete,
+  {
+    "task": "create",
     "payload": {
-        "apps_id": "string", // optional. Default: null
-        "merchant_id": "string", // optional. Default: null
-        "merchant_name": "string", // optional. Default: null
-        "session_id": "string", // optional. Default: null
-        "user_id": "string", // required      
-        "product_id": "string", // required    
-        "product_image": "string", // required. Accepting URL only 
-        "product_name":  "string", // required
-        "price": 0, // required       
-        "quantity": 0, // required
+      "apps_id": "6606cc8ed9c25c6c5f00b48b",
+      "merchant_id": "5798426b-8c7c-4064-b43b-d51e5ef6067b",
+      "merchant_name": "My Favorite Store",
+      "session_id": "a0a8ae1a-aa31-488c-9a6c-cfda44202446",
+      "user_id": "deanknowles@valpreal.com",
+      "product_id": "6606cc8e1b69fbabf8a3b534",
+      "product_image": "https://images.mediaservice.io/example.jpeg",
+      "product_name": "Apple Vision Pro",
+      "price": 1000000,
+      "quantity": 1
     }
-}
+  }
 ```
+> `task` consist of `create`, `read`, `update` and `delete`
 
 ## RabbitMQ
 
-Message Payload:
+Message Payload :
 
 ```json
 {
-    "task": "string", // valid selection: create, read, update, delete,
+    "task": "create",
     "payload": {
-        "apps_id": "string", // optional. Default: null
-        "merchant_id": "string", // optional. Default: null
-        "merchant_name": "string", // optional. Default: null
-        "session_id": "string", // optional. Default: null
-        "user_id": "string", // required      
-        "product_id": "string", // required    
-        "product_image": "string", // required. Accepting URL only 
-        "product_name":  "string", // required
-        "price": 0, // required       
-        "quantity": 0, // required
+      "apps_id": "6606cc8ed9c25c6c5f00b48b",
+      "merchant_id": "5798426b-8c7c-4064-b43b-d51e5ef6067b",
+      "merchant_name": "My Favorite Store",
+      "session_id": "a0a8ae1a-aa31-488c-9a6c-cfda44202446",
+      "user_id": "deanknowles@valpreal.com",
+      "product_id": "6606cc8e1b69fbabf8a3b534",
+      "product_image": "https://images.mediaservice.io/example.jpeg",
+      "product_name": "Apple Vision Pro",
+      "price": 1000000,
+      "quantity": 1
     },
-    // origin is required when using rabbitmq
     "origin": {
-        "queue": "customerOrder",
-        "routingKey": "customerOrderKey"
+      "queue": "customerOrder",
+      "routingKey": "customerOrderKey"
     }
 }
 ```
+
+## Attribute descriptions
+
+| Element   |  Value | Required |
+| -------   |  ----------- | -------- |
+| `task`    |  `create`, `read`, `update`, `delete` | Required
+| `payload` | `Object`: Cart details | Required
+| `apps_id` | `String`: (eg: server-key or service id) | Optional
+| `merchant_id` | `String` | Optional
+| `session_id` | `String` | Optional
+| `user_id` | `String`: (eg: email or random token) | Required
+| `product_id` | `String`: (eg: Product SKU) | Required
+| `product_image` | `String`: value must be valid URL format | Required
+| `product_name` | `String` | Required
+| `price` | `Number` | Required
+| `quantity` | `Number` | Required
+| `origin` | `Object`: consist of two key [`queue`, `routingKey`] only required when using MQTT protocols | Required  
