@@ -19,18 +19,13 @@ type Task = 'read' | 'create' | 'update' | 'delete'
 
 export const handlingData = async (task: Task, payload: any, origin?: MessageOrigin, proto?: Protocols) => {
     try {
-        if (!task) {
-            throw new Error(JSON.stringify({
-                status: 'ERROR_BAD_REQUEST',
-                code: 400,
-                details: 'Task cannot be an empty value'
-            }))
-        }
         /** start to validate payload */
-        await validateRequest({
+        const requireBody = {
             task,
-            payload
-        })
+            payload,
+            ...proto?.useMqtt && { origin }
+        }
+        await validateRequest(requireBody)
         /** ----------------------------------------------------------------- */
         if (task == 'create') {
             const count = await Cart.checkDuplicate(payload);
