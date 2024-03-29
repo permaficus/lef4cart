@@ -11,7 +11,7 @@ const _template_: any = {
         'create',
         'read',
         'delete',
-        'update'),
+        'update').required().label('Task'),
     payload: Joi.object({
         user_id: Joi.string().label('User ID').required().messages({
             'string.empty': 'User ID must have a value'
@@ -35,7 +35,11 @@ const _template_: any = {
         merchant_id: Joi.string().allow(''),
         merchant_name: Joi.string().allow(''),
         session_id: Joi.string().allow(''),
-    })
+    }).required().label('Payload'),
+    origin: Joi.object({
+        queue: Joi.string().required().label('Queue'),
+        routingKey: Joi.string().required().label('RoutingKey')
+    }).required().label('Origin')
 }
 export const validateSchema = async (payload: any) => {
     let selectedSchema: any = {}
