@@ -55,6 +55,7 @@ Sample Request and Request Body :
     }
   }
 ```
+>[!NOTE]
 > `task` consist of `create`, `read`, `update` and `delete`
 
 ## RabbitMQ
