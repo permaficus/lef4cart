@@ -4,13 +4,13 @@
 
 Lef4Cart is a micro shopping cart app that is FREE and open source. One of its standout features is the use of RabbitMQ as a message broker. Additionally, Lef4Cart uses the standard HTTP protocol for data transmission
 
-## ENVIRONMENT
+## ENVIRONMENT EXAMPLE
 
 ```shell
 # USING AT DOCKER CONTAINER
-DATABASE_URL="mongodb://username:mongoDB2121@host.docker.internal:27017/shoppingCart?retryWrites=true&authSource=admin&directConnection=true"
+DATABASE_URL="mongodb://username:password@host.docker.internal:27017/shoppingCart?retryWrites=true&authSource=admin&directConnection=true"
 # USING AT LOCALHOST
-DATABASE_URL="mongodb://username:mongoDB2121@localhost:27017/shoppingCart?retryWrites=true&authSource=admin&directConnection=true"
+DATABASE_URL="mongodb://username:password@localhost:27017/shoppingCart?retryWrites=true&authSource=admin&directConnection=true"
 ## APP ENV
 NODE_ENV="DEVELOPMENT"
 
