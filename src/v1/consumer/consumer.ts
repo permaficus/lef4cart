@@ -1,4 +1,5 @@
 import { rabbitInstance, RBMQ_CART_QUEUE, RBMQ_URL } from "../../libs/amqplib";
+import { handlingData } from "../worker/dataHandler";
 import chalk from 'chalk'
 
 export const consumerInit = async () => {
@@ -6,7 +7,7 @@ export const consumerInit = async () => {
     rbmq.connect();
     rbmq.on('connected', async (EventListener) => {
         const { channel, conn } = EventListener;
-        await rbmq.createExchange({
+        const exchange = await rbmq.createExchange({
             name: null, 
             type: 'direct',
             durable: true,
@@ -19,13 +20,27 @@ export const consumerInit = async () => {
             name: RBMQ_CART_QUEUE,
             options: {
                 durable: true,
-                arguments: { 'x-queue-type': 'classic' }
+                arguments: { 
+                    'x-queue-type': 'classic',
+                    "x-dead-letter-exchange": exchange
+                }
             }
         });
         await channel.consume(RBMQ_CART_QUEUE, async (msg: any) => {
             if (msg) {
                 /** start doing some stuff here */
-                const { task, origin, payload } = JSON.parse(msg.content)
+                const { task, origin, payload } = JSON.parse(msg.content);
+                try {
+                    await handlingData(task, payload, origin, { useMqtt: true })
+                    channel.ack(msg)
+                } catch (error: any) {
+                    const errObject = JSON.parse(error.message)
+                    if (errObject.status && errObject.code) {
+                        channel.ack(msg)
+                    } else {
+                        channel.nack(msg, true, true)
+                    }
+                }
             }
         });
         process.once('SIGINT' || 'exit' || 'SIGKILL', async () => {
