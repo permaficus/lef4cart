@@ -13,7 +13,8 @@ export interface DataSet {
     quantity: number
 }
 interface UpdatePayload {
-    user_id: string,
+    user_id: string
+    product_id: string
     quantity: number
 }
 export class Cart {
@@ -61,7 +62,10 @@ export class Cart {
             const transaction = await DB.$transaction(async model => {
                 const doc = await model.shopping_cart.findFirst({
                     where: {
-                        user_id: payload?.user_id
+                        AND: [
+                            { user_id: payload?.user_id },
+                            { product_id: payload?.product_id }
+                        ]
                     },
                     select: { id: true }
                 });
@@ -89,11 +93,11 @@ export class Cart {
             throw new Error(error.message)
         }
     }
-    static remove = async (cartId: any) => {
+    static remove = async (cartId: any = []) => {
         try {
-            const response = await DB.shopping_cart.delete({
+            const response = await DB.shopping_cart.deleteMany({
                 where: {
-                    id: cartId
+                    id: { in: cartId } 
                 }
             })
             return {
