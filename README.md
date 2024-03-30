@@ -58,6 +58,15 @@ Sample Request and Request Body :
 >[!NOTE]
 > `task` consist of `create`, `read`, `update` and `delete`
 
+#### Task Description & Method
+
+| Task | Method | Minimum Payload |
+| ---- | ------ | ------- |
+| `create` | POST | `user_id`, `product_id`, `product_image`, `product_name`, `price`, `quantity` |
+| `read` | GET | `user_id` |
+| `update` | PATCH | `user_id`, `product_id`, `quantity` |
+| `remove` | DELETE | `[id]` or `[cartId]` |
+
 ## RabbitMQ
 
 Message Payload :
