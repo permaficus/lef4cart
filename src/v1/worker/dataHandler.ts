@@ -20,12 +20,14 @@ type Task = 'read' | 'create' | 'update' | 'delete'
 export const handlingData = async (task: Task, payload: any, origin?: MessageOrigin, proto?: Protocols) => {
     try {
         /** start to validate payload */
-        const requireBody = {
-            task,
-            payload,
-            ...proto?.useMqtt && { origin }
+        if (proto?.useMqtt) {
+            const requireBody = {
+                task,
+                payload,
+                ...proto?.useMqtt && { origin }
+            }
+            await validateRequest(requireBody, 'MQTT')
         }
-        await validateRequest(requireBody)
         /** ----------------------------------------------------------------- */
         if (task == 'create') {
             const count = await Cart.checkDuplicate(payload);

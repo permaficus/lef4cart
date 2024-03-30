@@ -1,9 +1,9 @@
 import { validateSchema } from "../../libs/joi";
 import { NextFunction, Request, Response } from "express";
 
-export const validateRequest = async (schema: any) => {
+export const validateRequest = async (schema: any, method: any) => {
     try {
-        await validateSchema(schema)
+        await validateSchema(schema, method)
     } catch (error: any) {
         throw new Error(JSON.stringify({
             status: 'ERROR_BAD_REQUEST',
@@ -14,7 +14,7 @@ export const validateRequest = async (schema: any) => {
 }
 export const validateIncomingRequest = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        await validateRequest(req.body);
+        await validateRequest(req.body, req.method);
         next();
     } catch (error: any) {
         res.status(400).json({
