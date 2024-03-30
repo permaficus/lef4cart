@@ -36,7 +36,8 @@ Endpoint :
 
 * `/v1/shopping-cart` : method would be `GET, POST, PATCH, DELETE`
 
-Sample Request and Request Body :
+<details>
+<summary>Sample Request and Request Body for task CREATE</summary>
 
 ```json
   {
@@ -55,6 +56,20 @@ Sample Request and Request Body :
     }
   }
 ```
+</details>
+<details>
+<summary>Sample Request and Request Body for task READ</summary>
+
+```json
+  {
+    "task": "create",
+    "payload": {
+      "user_id": "deanknowles@valpreal.com"
+    }
+  }
+```
+</details>
+
 >[!NOTE]
 > `task` consist of `create`, `read`, `update` and `delete`
 
