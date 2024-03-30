@@ -37,7 +37,7 @@ Endpoint :
 * `/v1/shopping-cart` : method would be `GET, POST, PATCH, DELETE`
 
 <details>
-<summary>Sample Request and Request Body for task CREATE</summary>
+<summary>POST Body JSON attribute </summary>
 
 ```json
   {
@@ -57,12 +57,13 @@ Endpoint :
   }
 ```
 </details>
+
 <details>
-<summary>Sample Request and Request Body for task READ</summary>
+<summary>READ Body JSON attribute</summary>
 
 ```json
   {
-    "task": "create",
+    "task": "read",
     "payload": {
       "user_id": "deanknowles@valpreal.com"
     }
@@ -70,10 +71,45 @@ Endpoint :
 ```
 </details>
 
+<details>
+<summary>PATCH Body JSON attribute</summary>
+
+```json
+  {
+    "task": "update",
+    "payload": {
+      "user_id": "deanknowles@valpreal.com",
+      "product_id": "6606cc8e1b69fbabf8a3b534",
+      "quantity": 2,
+      "params": "params"
+    }
+  }
+```
+
+>[!NOTE]
+> `PARAMS:` value must be `increment` or `decrement`
+</details>
+
+<details>
+<summary>DELETE Body JSON attribute</summary>
+
+```json
+  {
+    "task": "remove",
+    "payload": {
+        "id": ["arrayOfIDs"]
+    }
+  }
+```
+
+>[!NOTE]
+>`arrayOfIDs`: ID must be in array format consist of cart ID / ID's. eg: [1, 2, 3, 4]
+</details>
+
 >[!NOTE]
 > `task` consist of `create`, `read`, `update` and `delete`
 
-#### 📍 Task Description & Method
+## 📍 Task Description & Method
 
 | Task | Method | Minimum Payload |
 | ---- | ------ | ------- |
