@@ -85,8 +85,6 @@ Endpoint :
     }
   }
 ```
-
->[!NOTE]
 > `PARAMS:` value must be `increment` or `decrement`
 </details>
 
@@ -101,8 +99,6 @@ Endpoint :
     }
   }
 ```
-
->[!NOTE]
 >`arrayOfIDs`: ID must be in array format consist of cart ID / ID's. eg: [1, 2, 3, 4]
 </details>
 

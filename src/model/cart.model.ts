@@ -16,6 +16,7 @@ interface UpdatePayload {
     user_id: string
     product_id: string
     quantity: number
+    params: 'increment' | 'decrement'
 }
 export class Cart {
     static push = async (dataSet: DataSet) => {
@@ -59,6 +60,7 @@ export class Cart {
      */
     static update = async (payload: UpdatePayload) => {
         try {
+            const { params } = payload;
             const transaction = await DB.$transaction(async model => {
                 const doc = await model.shopping_cart.findFirst({
                     where: {
@@ -82,7 +84,7 @@ export class Cart {
                     },
                     data: {
                         quantity: {
-                            increment: payload.quantity
+                            ...payload.params == 'increment' ? {increment: payload.quantity} : {decrement: payload.quantity}
                         }
                     }
                 })
