@@ -58,7 +58,7 @@ Sample Request and Request Body :
 >[!NOTE]
 > `task` consist of `create`, `read`, `update` and `delete`
 
-#### Task Description & Method
+#### 📍 Task Description & Method
 
 | Task | Method | Minimum Payload |
 | ---- | ------ | ------- |
