@@ -95,7 +95,7 @@ Endpoint :
 
 ```json
   {
-    "task": "remove",
+    "task": "delete",
     "payload": {
         "id": ["arrayOfIDs"]
     }
