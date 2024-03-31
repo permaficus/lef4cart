@@ -105,7 +105,7 @@ Endpoint :
   }
 ```
 >`arrayOfIDs`: ID must be in array format consist of cart ID / ID's. eg: [1, 2, 3, 4]
-</details>
+</details><br>
 
 >[!NOTE]
 > `task` consist of `create`, `read`, `update` and `delete`
