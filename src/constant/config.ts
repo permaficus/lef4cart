@@ -9,3 +9,9 @@ export const RBMQ_PUB_QUEUE = process.env.RBMQ_PUB_QUEUE || 'pub.MessageQueue'
 export const RBMQ_PUB_ROUTING_KEY = process.env.RBMQ_ROUTING_KEY || 'pub.RoutingKey'
 export const SERVICE_LOCAL_PORT = process.env.SERVICE_LOCAL_PORT || 8081
 export const NODE_ENV = process.env.NODE_ENV || 'DEVELOPMENT'
+
+/**
+ * A list for CORS policy
+ * Leave empty array to allow from all(*)
+ */
+export const allowedOrigin: any = []
