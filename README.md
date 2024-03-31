@@ -110,6 +110,8 @@ Endpoint :
 >[!NOTE]
 > `task` consist of `create`, `read`, `update` and `delete`
 
+<br>
+
 ## 📍 Task Description & Method
 
 | Task | Method | Minimum Payload |
