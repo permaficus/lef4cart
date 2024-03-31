@@ -9,6 +9,7 @@ export interface DataSet {
     product_id: string
     product_name: string
     product_image: string
+    custom_fields?: object
     price: number
     quantity: number
 }
