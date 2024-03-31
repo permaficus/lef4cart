@@ -122,7 +122,8 @@ Endpoint :
 
 ## RabbitMQ
 
-Message Payload :
+<details>
+<summary>Message Payload:</summary>
 
 ```json
 {
@@ -145,6 +146,8 @@ Message Payload :
     }
 }
 ```
+
+</details>
 
 ## Attribute descriptions
 
@@ -169,7 +172,7 @@ Message Payload :
 Custom fields allow you to add any extra info on user items, such as brand name, item size, color, and more.
 
 <details>
-<summary>See Body JSON Attribute</summary>
+<summary>Body JSON Attribute</summary>
 
 ```json
 {
