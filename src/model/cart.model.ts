@@ -84,7 +84,7 @@ export class Cart {
                     },
                     data: {
                         quantity: {
-                            ...payload.params == 'increment' ? {increment: payload.quantity} : {decrement: payload.quantity}
+                            ...params == 'increment' ? {increment: payload.quantity} : {decrement: payload.quantity}
                         }
                     }
                 })
