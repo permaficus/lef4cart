@@ -13,14 +13,17 @@ datasource db {
 
 model shopping_cart {
     id            String    @id @default(auto()) @map("_id") @db.ObjectId
-    apps_id       String?  
+    apps_id       String?
+    merchant_id   String?
     merchant_name String?
+    session_id    String?
     user_id       String
     product_id    String
     product_image String
     product_name  String
     price         Int
     quantity      Int
+    custom_fields Json?
     createdAt     DateTime  @updatedAt
 
     @@index([createdAt(sort: Desc)], map: "createAt_-1")
