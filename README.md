@@ -4,6 +4,9 @@
 
 Lef4Cart is a micro shopping cart app that is FREE and open source. One of its standout features is the use of RabbitMQ as a message broker. Additionally, Lef4Cart uses the standard HTTP protocol for data transmission
 
+<details>
+<summary>See environment example</summary>
+
 ## ENVIRONMENT EXAMPLE
 
 ```shell
@@ -19,6 +22,7 @@ RBMQ_URL="amqp://username:password@localhost:5672"
 # CONFIG FOR CONSUMER
 RBMQ_CART_EXCHANGE="lef4cart"
 RBMQ_CART_QUEUE="sub.cartMessageQueue"
+RBMQ_CART_ROUTING_KEY="cartMessageRoutingKey"
 # CONFIG FOR PUBLISHER
 RBMQ_PUB_QUEUE="pub.cartMessageQueue"
 RBMQ_PUB_ROUTING_KEY="pub.MessageRouting"
@@ -29,6 +33,7 @@ SERVICE_LOCAL_PORT="8081"
 COMPOSE_PROJECT_NAME="shopping-cart"
 
 ```
+</details>
 
 ## API
 
