@@ -16,17 +16,23 @@ interface Protocols {
     useMqtt?: boolean
 }
 type Task = 'read' | 'create' | 'update' | 'delete'
-
+const taskToMethod = (task: Task) => {
+    return {
+        ...task == 'create' && { method: 'MQTT-POST' },
+        ...task == 'update' && { method: 'MQTT-PATCH' },
+        ...task == 'delete' && { method: 'MQTT-DELETE'}
+    }?.method
+}
 export const handlingData = async (task: Task, payload: any, origin?: MessageOrigin, proto?: Protocols) => {
     try {
         /** start to validate payload */
         if (proto?.useMqtt) {
-            const requireBody = {
+            const requireBody = { 
                 task,
                 payload,
                 ...proto?.useMqtt && { origin }
             }
-            await validateRequest(requireBody, 'MQTT')
+            await validateRequest(requireBody, taskToMethod(task))
         }
         /** ----------------------------------------------------------------- */
         if (task == 'create') {

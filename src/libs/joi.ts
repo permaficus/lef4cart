@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-type RequestMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE' | 'MQTT';
+type RequestMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE' | 'MQTT-POST' | 'MQTT-PATCH' | 'MQTT-DELETE';
 
 const validator = async (schema: any, payload: any) => {
     return await schema.validateAsync(payload, {
@@ -19,28 +19,29 @@ const _template_ = (method: RequestMethod): any => {
             user_id: Joi.string().label('User ID').required().messages({
                 'string.empty': 'User ID must have a value'
             }),
-            ...['POST', 'PATCH'].includes(method) && { product_id: Joi.string().label('Producdt ID').required().messages({
+            ...['POST', 'PATCH', 'MQTT-PATCH'].includes(method) && { product_id: Joi.string().label('Producdt ID').required().messages({
                 'string.empty': 'Product ID cannot be an empty value'
             })},
-            ...['POST'].includes(method) && { product_name: Joi.string().label('Product Name').required().messages({
+            ...['POST', 'MQTT-POST'].includes(method) && { product_name: Joi.string().label('Product Name').required().messages({
                 'string.empty': 'Product Name cannot be an empty value'
             })},
-            ...['POST'].includes(method) && { product_image: Joi.string().label('Product Image').required().messages({
+            ...['POST', 'MQTT-POST'].includes(method) && { product_image: Joi.string().label('Product Image').required().messages({
                 'string.empty': 'Product Image cannot be an empty value'
             })},
-            ...['POST'].includes(method) && { price: Joi.number().min(1).label('Price').required().messages({
+            ...['POST', 'MQTT-POST'].includes(method) && { price: Joi.number().min(1).label('Price').required().messages({
                 'number.base': 'Price must be a number value'
             })},
-            ...['POST', 'PATCH'].includes(method) && { quantity: Joi.number().min(1).label('Quantity').required().messages({
+            ...['POST', 'PATCH', 'MQTT-PATCH'].includes(method) && { quantity: Joi.number().min(1).label('Quantity').required().messages({
                 'number.base': 'Quantity must be a number value'
             })},
-            ...['PATCH'].includes(method) && { params: Joi.string().valid('increment', 'decrement').required() },
+            ...['PATCH', 'MQTT-PATCH'].includes(method) && { params: Joi.string().label('Params').valid('increment', 'decrement').required() },
             apps_id: Joi.string().allow(''),
             merchant_id: Joi.string().allow(''),
             merchant_name: Joi.string().allow(''),
             session_id: Joi.string().allow(''),
+            custom_fields: Joi.object({}).unknown(true)
         }).required().label('Payload'),
-        ...method == 'MQTT' && { origin: Joi.object({
+        ...(/(MQTT.*)/g).test(method) && { origin: Joi.object({
             queue: Joi.string().required().label('Queue'),
             routingKey: Joi.string().required().label('RoutingKey')
         }).required().label('Origin') }
