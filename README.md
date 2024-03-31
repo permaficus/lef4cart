@@ -110,7 +110,6 @@ Endpoint :
 >[!NOTE]
 > `task` consist of `create`, `read`, `update` and `delete`
 
-<br>
 
 ## 📍 Task Description & Method
 
@@ -149,7 +148,7 @@ Message Payload :
 
 ## Attribute descriptions
 
-| Element   |  Value | Required |
+| Element   |  Description| Required |
 | -------   |  ----------- | -------- |
 | `task`    |  `create`, `read`, `update`, `delete` | Required
 | `payload` | `Object`: Cart details | Required
@@ -162,4 +161,22 @@ Message Payload :
 | `product_name` | `String` | Required
 | `price` | `Number` | Required
 | `quantity` | `Number` | Required
+| `custom_fields` | `Object`: [see example](#custom-fields-on-payload)  | Optional
 | `origin` | `Object`: consist of two key [`queue`, `routingKey`] only required when using MQTT protocols | Required  
+
+## Custom Fields on Payload
+
+Custom fields allow you to add any extra info on user items, such as brand name, item size, color, and more.
+
+```json
+{
+  "task": "create",
+  "payload": {
+    "custom_fields": {
+      "brand": "XYZ",
+      "color": "Green",
+      "size": "XL"
+    }
+  }
+}
+```
