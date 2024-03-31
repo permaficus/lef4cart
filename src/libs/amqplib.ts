@@ -3,6 +3,7 @@ import {
     RBMQ_URL,
     RBMQ_CART_EXCHANGE,
     RBMQ_CART_QUEUE,
+    RBMQ_CART_ROUTING_KEY,
     RBMQ_PUB_ROUTING_KEY,
     RBMQ_PUB_QUEUE
 } from '../constant/config'
@@ -119,4 +120,12 @@ const rabbitInstance = () => {
     return new RabbitConnector()
 }
 
-export { rabbitInstance, RBMQ_CART_QUEUE, RBMQ_URL, RBMQ_CART_EXCHANGE, RBMQ_PUB_ROUTING_KEY, RBMQ_PUB_QUEUE}
+export { 
+    rabbitInstance, 
+    RBMQ_CART_QUEUE, 
+    RBMQ_URL,
+    RBMQ_CART_EXCHANGE,
+    RBMQ_CART_ROUTING_KEY,
+    RBMQ_PUB_ROUTING_KEY, 
+    RBMQ_PUB_QUEUE
+}

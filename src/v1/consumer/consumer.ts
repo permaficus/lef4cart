@@ -1,4 +1,4 @@
-import { rabbitInstance, RBMQ_CART_QUEUE, RBMQ_URL } from "../../libs/amqplib";
+import { rabbitInstance, RBMQ_CART_QUEUE, RBMQ_URL, RBMQ_CART_ROUTING_KEY } from "../../libs/amqplib";
 import { handlingData } from "../worker/dataHandler";
 import chalk from 'chalk'
 
@@ -26,6 +26,7 @@ export const consumerInit = async () => {
                 }
             }
         });
+        await channel.bindQueue(RBMQ_CART_QUEUE, exchange, RBMQ_CART_ROUTING_KEY)
         await channel.consume(RBMQ_CART_QUEUE, async (msg: any) => {
             if (msg) {
                 /** start doing some stuff here */
@@ -59,7 +60,6 @@ export const consumerInit = async () => {
         console.info(`[RBMQ] Retrying connect to: ${chalk.yellow(RBMQ_URL.split('@')[1])}, attempt: ${chalk.green(attempt)}`)
     })
     rbmq.on('ECONNREFUSED', () => {
-        // logger.error(`[RBMQ] Connection to ${RBMQ_URL.split('@')[1]} refused`)
         console.error(chalk.red(`[RBMQ] Connection to ${RBMQ_URL.split('@')[1]} refused`))
         return;
     })
