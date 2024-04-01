@@ -165,7 +165,8 @@ Endpoint :
 | `price` | `Number` | Required
 | `quantity` | `Number` | Required
 | `custom_fields` | `Object`: [see example](#custom-fields-on-payload)  | Optional
-| `origin` | `Object`: consist of two key [`queue`, `routingKey`] only required when using MQTT protocols | Required  
+| `origin` | `Object`: consist of two key [`queue`, `routingKey`] only required when using MQTT protocols | Required
+| `params` | `String`: value must be `decrement` or `increment`. Required when updating items quantity | Required
 
 ## Custom Fields on Payload
 
