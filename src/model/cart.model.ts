@@ -12,6 +12,7 @@ export interface DataSet {
     custom_fields?: object
     price: number
     quantity: number
+    totals?: number
 }
 interface UpdatePayload {
     user_id: string
@@ -22,6 +23,9 @@ interface UpdatePayload {
 export class Cart {
     static push = async (dataSet: DataSet) => {
         try {
+            if (!dataSet.totals) {
+                Object.assign(dataSet, { totals: dataSet.quantity * dataSet.price })
+            }
             const response = await DB.shopping_cart.create({
                 data: dataSet
             });
@@ -70,7 +74,7 @@ export class Cart {
                             { product_id: payload?.product_id }
                         ]
                     },
-                    select: { id: true }
+                    select: { id: true, price: true }
                 });
                 if (!doc?.id) {
                     throw new Error(JSON.stringify({
@@ -84,9 +88,8 @@ export class Cart {
                         id: doc.id
                     },
                     data: {
-                        quantity: {
-                            ...params == 'increment' ? {increment: payload.quantity} : {decrement: payload.quantity}
-                        }
+                        quantity: { [params]: payload.quantity }, 
+                        totals: { [params]: payload.quantity * doc.price }
                     }
                 })
             });
