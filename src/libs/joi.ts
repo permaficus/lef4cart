@@ -19,6 +19,7 @@ const _template_ = (method: RequestMethod): any => {
             user_id: Joi.string().label('User ID').required().messages({
                 'string.empty': 'User ID must have a value'
             }),
+            ...['DELETE', 'MQTT-DELETE'].includes(method) && { id: Joi.array().items(Joi.string()).label('Cart ID').required()},
             ...['POST', 'PATCH', 'MQTT-POST', 'MQTT-PATCH'].includes(method) && { product_id: Joi.string().label('Producdt ID').required().messages({
                 'string.empty': 'Product ID cannot be an empty value'
             })},
