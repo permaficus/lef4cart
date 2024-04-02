@@ -131,6 +131,7 @@ Endpoint :
     "payload": {
       "apps_id": "6606cc8ed9c25c6c5f00b48b",
       "merchant_id": "5798426b-8c7c-4064-b43b-d51e5ef6067b",
+      "merchat_name": "XYZ Company",
       "merchant_name": "My Favorite Store",
       "session_id": "a0a8ae1a-aa31-488c-9a6c-cfda44202446",
       "user_id": "deanknowles@valpreal.com",
@@ -154,9 +155,10 @@ Endpoint :
 | Element   |  Description| Required |
 | -------   |  ----------- | -------- |
 | `task`    |  `create`, `read`, `update`, `delete` | Required
-| `payload` | `Object`: Cart details | Required
+| `payload` | `Object`: Item details | Required
 | `apps_id` | `String`: (eg: server-key or service id) | Optional
 | `merchant_id` | `String` | Optional
+| `merchant_name` | `String` | Optional
 | `session_id` | `String` | Optional
 | `user_id` | `String`: (eg: email or random token) | Required
 | `product_id` | `String`: (eg: Product SKU) | Required
