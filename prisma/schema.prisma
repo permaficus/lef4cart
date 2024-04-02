@@ -23,6 +23,7 @@ model shopping_cart {
     product_name  String
     price         Int
     quantity      Int
+    totals        Int?
     custom_fields Json?
     createdAt     DateTime  @updatedAt
 
