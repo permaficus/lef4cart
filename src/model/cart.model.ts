@@ -103,7 +103,7 @@ export class Cart {
         try {
             const response = await DB.shopping_cart.deleteMany({
                 where: {
-                    id: { in: cartId } 
+                    id: { in: [cartId] } 
                 }
             })
             return {
