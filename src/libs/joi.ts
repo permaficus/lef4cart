@@ -19,7 +19,7 @@ const _template_ = (method: RequestMethod): any => {
             user_id: Joi.string().label('User ID').required().messages({
                 'string.empty': 'User ID must have a value'
             }),
-            ...['POST', 'PATCH', 'MQTT-PATCH'].includes(method) && { product_id: Joi.string().label('Producdt ID').required().messages({
+            ...['POST', 'PATCH', 'MQTT-POST', 'MQTT-PATCH'].includes(method) && { product_id: Joi.string().label('Producdt ID').required().messages({
                 'string.empty': 'Product ID cannot be an empty value'
             })},
             ...['POST', 'MQTT-POST'].includes(method) && { product_name: Joi.string().label('Product Name').required().messages({
@@ -31,7 +31,7 @@ const _template_ = (method: RequestMethod): any => {
             ...['POST', 'MQTT-POST'].includes(method) && { price: Joi.number().min(1).label('Price').required().messages({
                 'number.base': 'Price must be a number value'
             })},
-            ...['POST', 'PATCH', 'MQTT-PATCH'].includes(method) && { quantity: Joi.number().min(1).label('Quantity').required().messages({
+            ...['POST', 'PATCH', 'MQTT-PATCH', 'MQTT-POST'].includes(method) && { quantity: Joi.number().min(1).label('Quantity').required().messages({
                 'number.base': 'Quantity must be a number value'
             })},
             ...['PATCH', 'MQTT-PATCH'].includes(method) && { params: Joi.string().label('Params').valid('increment', 'decrement').required() },
@@ -39,7 +39,7 @@ const _template_ = (method: RequestMethod): any => {
             merchant_id: Joi.string().allow(''),
             merchant_name: Joi.string().allow(''),
             session_id: Joi.string().allow(''),
-            custom_fields: Joi.object({}).unknown(true)
+            custom_fields: Joi.object().unknown(true)
         }).required().label('Payload'),
         ...(/(MQTT.*)/g).test(method) && { origin: Joi.object({
             queue: Joi.string().required().label('Queue'),
