@@ -15,7 +15,7 @@ interface Protocols {
     }
     useMqtt?: boolean
 }
-type Task = 'read' | 'create' | 'update' | 'delete'
+type Task = 'read' | 'create' | 'update' | 'delete' | null;
 const taskToMethod = (task: Task) => {
     return {
         ...task == 'create' && { method: 'MQTT-POST' },
@@ -35,6 +35,13 @@ export const handlingData = async (task: Task, payload: any, origin?: MessageOri
             await validateRequest(requireBody, taskToMethod(task))
         }
         /** ----------------------------------------------------------------- */
+        if (proto?.overHttp?.state && proto?.overHttp.request?.method === 'GET') {
+            const { request } = proto?.overHttp;
+            task = 'read'
+            payload = {
+                userId: request.params.token
+            }
+        }
         if (task == 'create') {
             const count = await Cart.checkDuplicate(payload);
             if (count > 0) {
