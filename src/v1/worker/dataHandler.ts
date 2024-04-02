@@ -54,7 +54,7 @@ export const handlingData = async (task: Task, payload: any, origin?: MessageOri
             ...task == 'create' && { exec: await Cart.push({ ...payload }) },
             ...task == 'read' && { exec: await Cart.read(payload.user_id) },
             ...task == 'update' && { exec: await Cart.update({ ...payload }) },
-            ...task == 'delete' && { exec: await Cart.remove(payload.cartId) }
+            ...task == 'delete' && { exec: await Cart.remove(payload.id) }
         }
         const response = taskMapping.exec
         if (proto?.useMqtt) {
