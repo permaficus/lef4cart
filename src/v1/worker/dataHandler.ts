@@ -20,7 +20,8 @@ const taskToMethod = (task: Task) => {
     return {
         ...task == 'create' && { method: 'MQTT-POST' },
         ...task == 'update' && { method: 'MQTT-PATCH' },
-        ...task == 'delete' && { method: 'MQTT-DELETE'}
+        ...task == 'delete' && { method: 'MQTT-DELETE'},
+        ...task == 'read' && { method: 'MQTT-READ' } 
     }?.method
 }
 export const handlingData = async (task: Task, payload: any, origin?: MessageOrigin, proto?: Protocols) => {
@@ -39,7 +40,7 @@ export const handlingData = async (task: Task, payload: any, origin?: MessageOri
             const { request } = proto?.overHttp;
             task = 'read'
             payload = {
-                userId: request.params.token
+                user_id: request.params.token
             }
         }
         if (task == 'create') {
@@ -51,7 +52,7 @@ export const handlingData = async (task: Task, payload: any, origin?: MessageOri
         }
         const taskMapping: any = {
             ...task == 'create' && { exec: await Cart.push({ ...payload }) },
-            ...task == 'read' && { exec: await Cart.read(payload.userId) },
+            ...task == 'read' && { exec: await Cart.read(payload.user_id) },
             ...task == 'update' && { exec: await Cart.update({ ...payload }) },
             ...task == 'delete' && { exec: await Cart.remove(payload.cartId) }
         }
