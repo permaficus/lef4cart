@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   opencart:
-    container_name: lef4cart
+    container_name: opencart
     network_mode: lefina-dev
     build: 
       context: .
