@@ -6,6 +6,7 @@ import {
     allowedOrigin
 } from "../constant/config"
 import { router as v1 } from "../v1/router/router"
+import { badRequest } from '../v1/middleware/errHandler'
 
 const httpServer: Express = express()
 const httpServerInit = async () => {
@@ -22,7 +23,8 @@ const httpServerInit = async () => {
             return callback(null, true)
         }} : {}
     }))
-    httpServer.use('/v1', v1)
+    httpServer.use('/v1', v1);
+    httpServer.use(badRequest)
 }
 
 export { httpServerInit, httpServer, SERVICE_LOCAL_PORT, NODE_ENV }
