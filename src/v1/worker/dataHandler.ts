@@ -85,9 +85,9 @@ export const handlingData = async (task: Task, payload: any, origin?: MessageOri
             throw new Error(error.message);
         };
 
-        proto?.overHttp?.response?.status(400).json({
-            status: 'ERROR_BAD_REQUEST',
-            code: 400,
+        proto?.overHttp?.response?.status(error.statusCode).json({
+            status: error.statusCode === 400 ? 'ERROR_BAD_REQUEST' : 'ERROR_BAD_SERVICE',
+            code: error.statusCode,
             details: error.message
         }).end();
     }

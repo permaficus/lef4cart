@@ -1,4 +1,4 @@
-import { DB } from "../libs/prisma.utils";
+import { DB, prismaErrHandler } from "../libs/prisma.utils";
 
 export interface DataSet {
     apps_id?: string | undefined | null
@@ -35,7 +35,7 @@ export class Cart {
                 details: response
             }       
         } catch (error: any) {
-            throw new Error(error.message);
+            prismaErrHandler(error);
         }
     }
     static read = async (userId: any) => {
@@ -54,7 +54,7 @@ export class Cart {
                 data: response
             }
         } catch (error: any) {
-            throw new Error(error.message)
+            prismaErrHandler(error)
         }
     }
     /**
@@ -96,7 +96,7 @@ export class Cart {
             DB.$disconnect();
             return transaction;
         } catch (error: any) {
-            throw new Error(error.message)
+            prismaErrHandler(error)
         }
     }
     static remove = async (cartId: any = []) => {
@@ -110,7 +110,7 @@ export class Cart {
                 document: response
             }
         } catch (error: any) {
-            throw new Error(error.message)
+            prismaErrHandler(error)
         }
     }
     /**
