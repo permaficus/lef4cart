@@ -1,4 +1,4 @@
-import { rabbitInstance, RBMQ_URL, RBMQ_PUB_QUEUE, RBMQ_PUB_ROUTING_KEY } from "../../libs/amqplib";
+import { rabbitInstance, RBMQ_URL, RBMQ_PUB_QUEUE, RBMQ_PUB_ROUTING_KEY } from "@/libs/amqplib";
 import chalk from 'chalk'
 
 interface PublisherOptions {

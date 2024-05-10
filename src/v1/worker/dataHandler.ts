@@ -1,7 +1,7 @@
-import { Cart } from '../../model/cart.model';
+import { Cart } from '@/model/cart.model';
 import { Request, Response } from 'express';
-import { publishMessage } from '../producer/producer';
-import { validateRequest } from '../middleware/validateRequest';
+import { publishMessage } from '@/v1/producer/producer';
+import { validateRequest } from '@/v1/middleware/validateRequest';
 
 interface MessageOrigin {
     queue: string

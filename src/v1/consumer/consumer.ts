@@ -1,5 +1,5 @@
-import { rabbitInstance, RBMQ_CART_QUEUE, RBMQ_URL, RBMQ_CART_ROUTING_KEY } from "../../libs/amqplib";
-import { handlingData } from "../worker/dataHandler";
+import { rabbitInstance, RBMQ_CART_QUEUE, RBMQ_URL, RBMQ_CART_ROUTING_KEY } from "@/libs/amqplib";
+import { handlingData } from "@/v1/worker/dataHandler";
 import chalk from 'chalk'
 
 export const consumerInit = async () => {

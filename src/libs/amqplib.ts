@@ -6,7 +6,7 @@ import {
     RBMQ_CART_ROUTING_KEY,
     RBMQ_PUB_ROUTING_KEY,
     RBMQ_PUB_QUEUE
-} from '../constant/config'
+} from '@/constant/config'
 import EventEmitter from 'events'
 
 interface BrokerExchange {
