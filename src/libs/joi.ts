@@ -5,7 +5,7 @@ type RequestMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE' | 'MQTT-POST' | 'MQTT-P
 const validator = async (schema: any, payload: any) => {
     return await schema.validateAsync(payload, {
         abortEarly: true,
-        allowUnknow: false
+        allowUnknown: false
     })
 }
 const _template_ = (method: RequestMethod): any => {
