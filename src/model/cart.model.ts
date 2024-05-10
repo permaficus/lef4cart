@@ -1,4 +1,4 @@
-import { DB, prismaErrHandler } from "../libs/prisma.utils";
+import { DB, prismaErrHandler } from "@/libs/prisma.utils";
 
 export interface DataSet {
     apps_id?: string | undefined | null

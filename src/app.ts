@@ -3,8 +3,8 @@ import {
     httpServerInit, 
     SERVICE_LOCAL_PORT, 
     NODE_ENV
-} from "./libs/service.init";
-import { consumerInit } from "./v1/consumer/consumer";
+} from "@/libs/service.init";
+import { consumerInit } from "@/v1/consumer/consumer";
 import chalk from 'chalk'
 
 (async () => {

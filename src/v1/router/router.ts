@@ -1,7 +1,7 @@
 import Router from 'express'
-import { incomingRequest } from '../worker/dataHandler';
-import { validateIncomingRequest } from '../middleware/validateRequest';
-import { PathNotFound, errHandler } from '../middleware/errHandler';
+import { incomingRequest } from '@/v1/worker/dataHandler';
+import { validateIncomingRequest } from '@/v1/middleware/validateRequest';
+import { PathNotFound, errHandler } from '@/v1/middleware/errHandler';
 
 export const router = Router();
 router.use('/shopping-cart/:token?', validateIncomingRequest, incomingRequest)

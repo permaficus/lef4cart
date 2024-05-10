@@ -1,4 +1,4 @@
-import { validateSchema } from "../../libs/joi";
+import { validateSchema } from "@/libs/joi";
 import { NextFunction, Request, Response } from "express";
 
 export const validateRequest = async (schema: any, method: any) => {
