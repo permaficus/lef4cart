@@ -90,11 +90,7 @@ export class Cart {
                     select: { id: true, price: true }
                 });
                 if (!doc?.id) {
-                    throw new Error(JSON.stringify({
-                        status: 'ERROR_BAD_REQUEST',
-                        code: 400,
-                        details: `User ID does not exist `
-                    }));
+                    throw new Error(`There is no data referrence to this ID: ${payload?.user_id} or ${payload?.product_id}#Code: 404`);
                 }
                 return await model.shopping_cart.update({
                     where: {
