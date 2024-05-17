@@ -167,6 +167,7 @@ Endpoint :
 | `price` | `Number` | Required
 | `quantity` | `Number` | Required
 | `custom_fields` | `Object`: [see example](#custom-fields-on-payload)  | Optional
+| `product_links` | `Object`: [see example](#product-links-attribute-example) | Optional
 | `origin` | `Object`: consist of two key [`queue`, `routingKey`] only required when using MQTT protocols | Required
 | `params` | `String`: value must be `decrement` or `increment`. Required when updating items quantity | Required
 
@@ -186,6 +187,39 @@ Custom fields allow you to add any extra info on user items, such as brand name,
       "color": "Green",
       "size": "XL"
     }
+  }
+}
+```
+
+</details>
+
+## Product Links Attribute Example
+
+In the `product_links` field, you can include attributes such as URL, shortened URL, catalog link, etc. To facilitate the Front-End team, you can add attributes like href, rel, and others.
+
+<details>
+<summary>Example</summary>
+
+```json
+{
+  "product_links": {
+    "url": "https://resource.e-commerce.app/product/apple-vision-pro-x",
+    "rel": "_blank",
+    "brochure": {
+      "url": "https://resource.e-commerce.app/product/apple-vision-pro-x/brochure.pdf",
+      "method": "GET"
+    }
+  }
+}
+```
+
+OR
+
+```json
+{
+  "product_links": {
+    "video_preview": "https://preview.media.app/dasno238as3/demo.video",
+    "video_link": "https://www.youtube.com/watch?v=abcdef"
   }
 }
 ```
