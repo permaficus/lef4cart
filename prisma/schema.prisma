@@ -25,7 +25,12 @@ model shopping_cart {
     quantity      Int
     totals        Int?
     custom_fields Json?
-    createdAt     DateTime  @updatedAt
+    product_links Json?
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
 
     @@index([createdAt(sort: Desc)], map: "createAt_-1")
+    @@index([apps_id], map: "apps_id_idx")
+    @@index([user_id], map: "user_id_idx")
+    @@index([product_id], map: "product_id_idx")
 }
