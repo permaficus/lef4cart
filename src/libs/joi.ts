@@ -40,7 +40,8 @@ const _template_ = (method: RequestMethod): any => {
             merchant_id: Joi.string().allow(''),
             merchant_name: Joi.string().allow(''),
             session_id: Joi.string().allow(''),
-            custom_fields: Joi.object().unknown(true)
+            custom_fields: Joi.object().unknown(true),
+            product_links: Joi.object().label('Product Links').unknown(true)
         }).required().label('Payload'),
         ...(/(MQTT.*)/g).test(method) && { origin: Joi.object({
             queue: Joi.string().required().label('Queue'),
