@@ -13,6 +13,7 @@ export interface DataSet {
     price: number
     quantity: number
     totals?: number
+    product_links?: object | undefined
 }
 interface UpdatePayload {
     user_id: string
@@ -20,19 +21,31 @@ interface UpdatePayload {
     quantity: number
     params: 'increment' | 'decrement'
 }
+
+type HasValueProps<T> = {[K in keyof T as T[K] extends null | undefined ? never : K]: T[K]};
+const removeNullProps = <T extends {}, V = HasValueProps<T>>(obj: T): V => {
+    return Object.fromEntries(
+        Object.entries(obj).filter(([, value]) => 
+            !(
+                ( value === null || value === undefined )
+            )
+        )
+    ) as V
+}
+
 export class Cart {
     static push = async (dataSet: DataSet) => {
         try {
             if (!dataSet.totals) {
                 Object.assign(dataSet, { totals: dataSet.quantity * dataSet.price })
             }
-            const response = await DB.shopping_cart.create({
+            const response: any = await DB.shopping_cart.create({
                 data: dataSet
             });
-            DB.$disconnect();     
+            DB.$disconnect();
             return {
                 status: 'OK',
-                details: response
+                details: removeNullProps(response)
             }       
         } catch (error: any) {
             prismaErrHandler(error);
@@ -94,7 +107,7 @@ export class Cart {
                 })
             });
             DB.$disconnect();
-            return transaction;
+            return removeNullProps(transaction);
         } catch (error: any) {
             prismaErrHandler(error)
         }
