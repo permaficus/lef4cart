@@ -44,7 +44,7 @@ export const handlingData = async (task: Task, payload: any, origin?: MessageOri
             }
         }
         if (task == 'create') {
-            const count = await Cart.checkDuplicate(payload);
+            const count: any = await Cart.checkDuplicate(payload);
             if (count > 0) {
                 task = 'update'
                 Object.assign(payload, { params: 'increment' })

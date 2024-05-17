@@ -131,15 +131,19 @@ export class Cart {
      * @param dataSet 
      * @returns {string}: 'update'
      */
-    static checkDuplicate = async (dataSet: any): Promise<number> => {
-        const count = await DB.shopping_cart.count({
-            where: {
-                AND:[
-                    { user_id: dataSet.user_id },
-                    { product_id: dataSet.product_id }
-                ]
-            }
-        }) ;
-        return count
+    static checkDuplicate = async (dataSet: any): Promise<number | undefined> => {
+        try {
+            const count = await DB.shopping_cart.count({
+                where: {
+                    AND:[
+                        { user_id: dataSet.user_id },
+                        { product_id: dataSet.product_id }
+                    ]
+                }
+            }) ;
+            return count
+        } catch (error: any) {
+            prismaErrHandler(error)
+        }
     } 
 }
