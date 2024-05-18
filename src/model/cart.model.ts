@@ -64,7 +64,7 @@ export class Cart {
             DB.$disconnect();
             return {
                 status: 'OK',
-                data: response
+                data: response.map((items: any) => removeNullProps(items))
             }
         } catch (error: any) {
             prismaErrHandler(error)
