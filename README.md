@@ -39,7 +39,10 @@ COMPOSE_PROJECT_NAME="shopping-cart"
 
 Endpoint :
 
-* `/v1/shopping-cart` : method would be `GET, POST, PATCH, DELETE`
+* `/v1/shopping-cart` : method would be `POST, PATCH, DELETE`
+* `/v1/shopping-cart/{userId}` : method `GET`
+
+<br>
 
 <details>
 <summary>POST Body JSON attribute </summary>
