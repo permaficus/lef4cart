@@ -13,6 +13,11 @@ export const validateRequest = async (schema: any, method: any) => {
     }
 }
 export const validateIncomingRequest = async (req: Request, res: Response, next: NextFunction) => {
+    if (req.method === 'GET' && !req.params.token) {
+        res.status(400);
+        next(new Error(`Missing required parameter. See our API documentations`))
+        return;
+    }
     if (req.method === 'GET') {
         next();
         return;
