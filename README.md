@@ -74,7 +74,12 @@ Endpoint :
     }
   }
 ```
+
 </details>
+
+> [!NOTE]
+>
+> Payload on READ Request Body only works when you're using RabbitMQ
 
 <details>
 <summary>PATCH Body JSON attribute</summary>
